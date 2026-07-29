@@ -13,7 +13,7 @@ MY_SYSTEM_ID = os.getenv("MY_SYSTEM_ID")
 TARGET_SYSTEM_ID = os.getenv("TARGET_SYSTEM_ID")
 
 TARGET_DATE_FROM = "20260326"
-TARGET_DATE_TO = "20260630"
+TARGET_DATE_TO = "20260729"
 
 
 url = "https://pvoutput.org/service/r2/getstatus.jsp"

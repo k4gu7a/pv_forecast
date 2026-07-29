@@ -34,7 +34,7 @@ base_path = os.getcwd().replace("\\","/") + "/data/msm-s_auto"
 
 year = 2026
 
-for i in range(1, 7):
+for i in range(7, 8):
 
     month = f"{i:02d}"
 

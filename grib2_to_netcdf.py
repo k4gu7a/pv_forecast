@@ -22,7 +22,7 @@ year = 2026
 
 variables = (":(UGRD|VGRD|TMP|RH|LCDC|MCDC|HCDC|TCDC|APCP|DSWRF):")
 
-for i in range(1, 7):
+for i in range(7, 8):
 
     month = f"{i:02d}"
 
