@@ -1,9 +1,10 @@
 # PV forecast
-## MSM (*grib2.bin → *.nc)
-get_grib2.py → grib2_to_netcdf.py → concat_msm.py
+## Data preprocessing
+### MSM (*grib2.bin → *.nc)
+`get_grib2.py → grib2_to_netcdf.py → concat_msm.py`
 
-## PV status (*.csv)
-request_pv_status.py
+### PV status (*.csv)
+`request_pv_status.py`
 
 ## For testing 
 * accuracy_comparison.py
