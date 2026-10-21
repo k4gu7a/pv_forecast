@@ -6,6 +6,9 @@
 ### PV status (*.csv)
 `request_pv_status.py`
 
+## Forecast creation
+`pred_main.py`
+
 ## For testing 
 * accuracy_comparison.py
 * grib_read.py
