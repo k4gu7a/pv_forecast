@@ -139,7 +139,7 @@ from tensorflow.keras.callbacks import EarlyStopping # type: ignore <=　VSCode�
 
 from sklearn.metrics import mean_squared_error,mean_absolute_error,mean_absolute_percentage_error
 
-neuron = 128
+neuron = 126
 actfunc = "tanh"
 dropout = 0.2
 epochs = 300
@@ -157,7 +157,10 @@ model_GRU_64.add(Dropout(dropout))
 model_GRU_64.add(Dense(1, activation="linear")) 
 
 model_GRU_64.compile(loss="mean_squared_error", optimizer="adam")
-early_stopping =  EarlyStopping(monitor='val_loss', min_delta=0.0, patience=3)
+early_stopping =  EarlyStopping(
+    monitor='val_loss',
+    patience=10,
+    min_delta=0.0001)
 
 history_GRU_64 = model_GRU_64.fit(x_train, y_train, batch_size=128, epochs=epochs, validation_split=0.2, callbacks=[early_stopping])
 
@@ -222,6 +225,16 @@ y_test_pred_GRU_64[daylight_test == 0] = 0
 # マイナスの予測値も0に補正
 y_test_pred_GRU_64 = np.maximum(y_test_pred_GRU_64, 0)
 
+# 予測対象の日時
+test_dates = df_all.index[train_size + timesteps:]
+
+# 予測結果を日時付きのSeriesに変換
+pred_GRU = pd.Series(
+    y_test_pred_GRU_64.flatten(),
+    index=test_dates,
+    name="pred_GRU"
+)
+
 GRU_RMSE_64 = np.sqrt(mean_squared_error(y_t, y_test_pred_GRU_64))
 GRU_MAE_64 = mean_absolute_error(y_t, y_test_pred_GRU_64)
 GRU_MAPE_64 = mean_absolute_percentage_error(y_t, y_test_pred_GRU_64)
@@ -268,9 +281,9 @@ plt.show()
 
 # 後ろから2週間分(24*7*2)のデータだけ描画
 plt.figure(figsize=(30,8))
-plt.plot(y_t[-168:], c="b")
+plt.plot(y_t[-336:], c="b")
 # plt.plot(y_test_pred_GRU_64[-336:], c="y")
-plt.plot(y_test_pred_GRU_64[-168:], c="r")
+plt.plot(y_test_pred_GRU_64[-336:], c="r")
 plt.show()
 
-np.savetxt('gen_pred.csv', y_test_pred_GRU_64, delimiter=",")
+pred_GRU.to_csv("gen_pred.csv")
