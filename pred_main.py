@@ -232,6 +232,16 @@ pred_GRU = pd.Series(
     name="pred_GRU"
 )
 
+y_test_pred_GRU_64 = pd.DataFrame(
+    y_test_pred_GRU_64,
+    index=test_dates
+)
+
+y_t = pd.DataFrame(
+    y_t,
+    index=test_dates
+)
+
 GRU_RMSE_64 = np.sqrt(mean_squared_error(y_t, y_test_pred_GRU_64))
 GRU_MAE_64 = mean_absolute_error(y_t, y_test_pred_GRU_64)
 GRU_MAPE_64 = mean_absolute_percentage_error(y_t, y_test_pred_GRU_64)

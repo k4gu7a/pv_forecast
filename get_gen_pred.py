@@ -15,4 +15,4 @@ df["datetime"] = pd.to_datetime(df["datetime"])
 # print(df.head)
 # print(type(df["datetime"].iloc[0]))
 
-print(getEstedPowerGeneration(2026, 7, 5, 5, 0, df)["pred_GRU"])
+print(getEstedPowerGeneration(2026, 7, 5, 6, 0, df)["pred_GRU"])
