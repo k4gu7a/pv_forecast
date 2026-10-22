@@ -41,14 +41,12 @@ df_all.to_csv("data/all.csv")
 from astral import LocationInfo
 from astral.sun import sun
 
-# 観測地点（奥多摩）
-location = LocationInfo(
+location = LocationInfo( #奥多摩を参照
     latitude=35.7999995,
     longitude=139.0625,
     timezone="Asia/Tokyo"
 )
 
-# 日付ごとの日の出・日の入りを計算
 sun_times = {
     date: sun(
         location.observer,
@@ -58,7 +56,6 @@ sun_times = {
     for date in df_all.index.date
 }
 
-# 昼間なら1、夜間なら0
 df_all["daylight"] = [
     int(
         sun_times[t.date()]["sunrise"] <= t
@@ -287,3 +284,10 @@ plt.plot(y_test_pred_GRU_64[-336:], c="r")
 plt.show()
 
 pred_GRU.to_csv("gen_pred.csv")
+
+plt.scatter(y_test_pred_GRU_64, y_t)
+plt.xlabel('y_t')
+plt.ylabel('predictions')
+plt.title('y_t vs predictions')
+plt.plot([min(y_t), max(y_t)], [min(y_t), max(y_t)], color='red')  # 45度線
+plt.show()
