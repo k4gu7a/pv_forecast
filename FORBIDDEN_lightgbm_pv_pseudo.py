@@ -29,10 +29,23 @@ TRAIN_RATIO = 0.8                # 予測実行日単位で時系列分割
 
 # ========= 読み込み =========
 def read_time_csv(path):
-    df = pd.read_csv(path, encoding='utf-8-sig')
-    df.columns = df.columns.str.strip().str.replace('**', '', regex=False)
-    df['datetime'] = pd.to_datetime(df['datetime'], utc=True, errors='raise').dt.tz_convert(TZ)
-    return df.set_index('datetime').sort_index().loc[lambda x: ~x.index.duplicated(keep='last')]
+    df = pd.read_csv(path, encoding="utf-8-sig")
+    df.columns = df.columns.str.strip().str.replace(
+        "**", "", regex=False
+    )
+
+    stamps = pd.to_datetime(df["datetime"])
+
+    if stamps.dt.tz is None:
+        # タイムゾーンなし → JSTとして解釈
+        stamps = stamps.dt.tz_localize("Asia/Tokyo")
+    else:
+        # タイムゾーンあり → JSTに変換
+        stamps = stamps.dt.tz_convert("Asia/Tokyo")
+
+    df["datetime"] = stamps
+
+    return df.set_index("datetime").sort_index()
 
 if WEATHER_CSV.exists():
     weather_raw = read_time_csv(WEATHER_CSV)
